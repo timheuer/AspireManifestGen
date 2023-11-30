@@ -21,9 +21,13 @@ jobs:
         VERSION: ${{ needs.build.outputs.version }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
+
+    - name: Disable VS Telemetry
+      run: |
+        reg add HKEY_CURRENT_USER\Software\Microsoft\VisualStudio\Telemetry /v TurnOffSwitch /t REG_DWORD /d 1 /f
 
     - name: Download Package artifact
       uses: actions/download-artifact@v3
