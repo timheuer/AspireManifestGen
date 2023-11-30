@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34328.292
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireManifestGen", "AspireManifestGen.csproj", "{E4AFBF83-C81A-4068-A6BA-F81E783F2073}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DB8CBDB0-7222-4FCF-A643-B077729AB022}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\publish.yaml = ..\.github\workflows\publish.yaml
+		..\README.md = ..\README.md
+		..\version.json = ..\version.json
+		..\vs-publish.json = ..\vs-publish.json
+		..\.github\workflows\_build.yaml = ..\.github\workflows\_build.yaml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|arm64 = Debug|arm64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|arm64 = Release|arm64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E4AFBF83-C81A-4068-A6BA-F81E783F2073}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4AFBF83-C81A-4068-A6BA-F81E783F2073}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4AFBF83-C81A-4068-A6BA-F81E783F2073}.Debug|arm64.ActiveCfg = Debug|arm64
+		{E4AFBF83-C81A-4068-A6BA-F81E783F2073}.Debug|arm64.Build.0 = Debug|arm64
+		{E4AFBF83-C81A-4068-A6BA-F81E783F2073}.Debug|x86.ActiveCfg = Debug|x86
+		{E4AFBF83-C81A-4068-A6BA-F81E783F2073}.Debug|x86.Build.0 = Debug|x86
+		{E4AFBF83-C81A-4068-A6BA-F81E783F2073}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4AFBF83-C81A-4068-A6BA-F81E783F2073}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4AFBF83-C81A-4068-A6BA-F81E783F2073}.Release|arm64.ActiveCfg = Release|arm64
+		{E4AFBF83-C81A-4068-A6BA-F81E783F2073}.Release|arm64.Build.0 = Release|arm64
+		{E4AFBF83-C81A-4068-A6BA-F81E783F2073}.Release|x86.ActiveCfg = Release|x86
+		{E4AFBF83-C81A-4068-A6BA-F81E783F2073}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FAFEE589-5A4E-4BE4-9BB3-29A6AA139426}
+	EndGlobalSection
+EndGlobal
