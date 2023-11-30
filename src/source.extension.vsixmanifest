@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="AspireManifestGen.f3fc092e-1d60-402a-a7c3-6a9934ef8a53" Version="|%CurrentProject%;GetBuildVersion|" Language="en-US" Publisher="Tim Heuer" />
+        <Identity Id="TimHeuer.AspireManifestGen" Version="0.1" Language="en-US" Publisher="Tim Heuer" />
         <DisplayName>.NET Aspire Manifest generator</DisplayName>
-        <Description xml:space="preserve">Empty VSIX Project.</Description>
+        <Description xml:space="preserve">Quick shortcut to generate a temporary view of the current manifest definition</Description>
         <MoreInfo>https://github.com/timheuer/aspiremanifestgen</MoreInfo>
         <License>LICENSE</License>
         <Icon>Resources\Icon.png</Icon>
