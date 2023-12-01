@@ -2,3 +2,5 @@
 
 # .NET Aspire Manifest generator
 A dumb little utility to quickly generate a deployment manifest from VS solution explorer.
+
+I honestly don't expect anyone to use this beyond myself and a few other team members for quick validation purposes in Visual Studio, demo purposes, etc. so with that it comes with the "works on my machine" level of quality guarantee.
