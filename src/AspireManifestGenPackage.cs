@@ -10,8 +10,8 @@ namespace AspireManifestGen;
 [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
 [ProvideMenuResource("Menus.ctmenu", 1)]
 [Guid(PackageGuids.AspireManifestGenString)]
-[ProvideOptionPage(typeof(OptionsProvider.GeneralOptions), "Projects and Solutions", ".NET Aspire", 0, 0, true)]
-[ProvideProfile(typeof(OptionsProvider.GeneralOptions), "Projects and Solutions", ".NET Aspire", 0, 0, true)]
+[ProvideOptionPage(typeof(OptionsProvider.GeneralOptions), ".NET Aspire", "Manifest", 0, 0, true)]
+[ProvideProfile(typeof(OptionsProvider.GeneralOptions), ".NET Aspire", "Manifest", 0, 0, true)]
 
 public sealed class AspireManifestGenPackage : ToolkitPackage
 {
