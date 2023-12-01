@@ -1,40 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-  <Extern href="stdidcmd.h"/>
-  <Extern href="vsshlids.h"/>
-  <Include href="KnownImageIds.vsct"/>
-  <Include href="VSGlobals.vsct"/>
+	<Extern href="stdidcmd.h"/>
+	<Extern href="vsshlids.h"/>
+	<Include href="KnownImageIds.vsct"/>
+	<Include href="VSGlobals.vsct"/>
 
-  <Commands package="AspireManifestGen">
-    <Groups>
-		<Group guid="AspireManifestGen" id="ContextMenuGroup" priority="0x0020">
-			<Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE"/>
-		</Group>
-		<Group guid="AspireManifestGen" id="ContextMenuGroup" priority="0x0020">
-			<Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_WEBPROJECT"/>
-		</Group>
-    </Groups>
+	<Commands package="AspireManifestGen">
+		<Groups>
+			<Group guid="AspireManifestGen" id="ContextMenuGroup" priority="0x0020">
+				<Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE"/>
+			</Group>
+			<Group guid="AspireManifestGen" id="ContextMenuGroup" priority="0x0020">
+				<Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_WEBPROJECT"/>
+			</Group>
+		</Groups>
 
-    <!--This section defines the elements the user can interact with, like a menu command or a button
+		<!--This section defines the elements the user can interact with, like a menu command or a button
         or combo box in a toolbar. -->
-    <Buttons>
-      <Button guid="AspireManifestGen" id="MyCommand" priority="0x0100" type="Button">
-        <Parent guid="AspireManifestGen" id="ContextMenuGroup" />
-        <Icon guid="ImageCatalogGuid" id="JSONScript" />
-        <CommandFlag>IconIsMoniker</CommandFlag>
-        <Strings>
-          <ButtonText>Generate .NET Aspire manifest</ButtonText>
-          <LocCanonicalName>.AspireManifestGen.MyCommand</LocCanonicalName>
-        </Strings>
-      </Button>
-    </Buttons>
-  </Commands>
+		<Buttons>
+			<Button guid="AspireManifestGen" id="MyCommand" priority="0x0100" type="Button">
+				<Parent guid="AspireManifestGen" id="ContextMenuGroup" />
+				<Icon guid="ImageCatalogGuid" id="JSONScript" />
+				<CommandFlag>IconIsMoniker</CommandFlag>
+				<CommandFlag>DynamicVisibility</CommandFlag>
+				<Strings>
+					<ButtonText>Generate .NET Aspire manifest</ButtonText>
+					<LocCanonicalName>.AspireManifestGen.MyCommand</LocCanonicalName>
+				</Strings>
+			</Button>
+		</Buttons>
+	</Commands>
 
-  <Symbols>
-    <GuidSymbol name="AspireManifestGen" value="{caf1ee1b-7891-494a-8b1d-39bbff587cab}">
-      <IDSymbol name="ContextMenuGroup" value="0x0001" />
-      <IDSymbol name="MyCommand" value="0x0100" />
-    </GuidSymbol>
-  </Symbols>
+	<VisibilityConstraints>
+		<VisibilityItem guid="AspireManifestGen" id="MyCommand" context="UIContextGuid"></VisibilityItem>
+	</VisibilityConstraints>
+
+	<Symbols>
+		<GuidSymbol name="AspireManifestGen" value="{caf1ee1b-7891-494a-8b1d-39bbff587cab}">
+			<IDSymbol name="ContextMenuGroup" value="0x0001" />
+			<IDSymbol name="MyCommand" value="0x0100" />
+		</GuidSymbol>
+		<GuidSymbol name="UIContextGuid" value="{F686D1D0-9DDF-47DB-A0DC-59032E168F69}" />
+	</Symbols>
 </CommandTable>
