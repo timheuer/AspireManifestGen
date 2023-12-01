@@ -8,7 +8,7 @@
         <License>LICENSE</License>
         <Icon>Resources\Icon.png</Icon>
         <PreviewImage>Resources\Icon.png</PreviewImage>
-        <Tags>dotnet</Tags>
+        <Tags>dotnet, aspire</Tags>
         <Preview>true</Preview>
     </Metadata>
     <Installation>
