@@ -12,7 +12,7 @@ namespace AspireManifestGen;
 [Guid(PackageGuids.AspireManifestGenString)]
 [ProvideOptionPage(typeof(OptionsProvider.GeneralOptions), ".NET Aspire", "Manifest", 0, 0, true)]
 [ProvideProfile(typeof(OptionsProvider.GeneralOptions), ".NET Aspire", "Manifest", 0, 0, true)]
-[ProvideAutoLoad(UIContextGuid)]
+[ProvideAutoLoad(UIContextGuid, PackageAutoLoadFlags.SkipWhenUIContextRulesActive)]
 [ProvideUIContextRule(UIContextGuid,
     name: "Show on Aspire Project",
     expression: "Aspire",
