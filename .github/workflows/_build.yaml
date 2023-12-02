@@ -43,7 +43,7 @@ jobs:
         msbuild: 'true'
 
     - name: 🏗️ Build
-      run: msbuild ${{ env.PROJECT_PATH }} /p:Configuration=Release /v:m -restore /p:OutDir=\_built -bl
+      run: msbuild ${{ env.PROJECT_PATH }} /p:Configuration=Release /v:m -restore /p:OutDir=\_built -bl /p:DeployExtension=false 
 
     - name: ⬆️ Upload artifact
       uses: actions/upload-artifact@v3
