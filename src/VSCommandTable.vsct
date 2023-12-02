@@ -24,6 +24,7 @@
 				<Icon guid="ImageCatalogGuid" id="JSONScript" />
 				<CommandFlag>IconIsMoniker</CommandFlag>
 				<CommandFlag>DynamicVisibility</CommandFlag>
+				<CommandFlag>DefaultInvisible</CommandFlag>
 				<Strings>
 					<ButtonText>Generate .NET Aspire manifest</ButtonText>
 					<LocCanonicalName>.AspireManifestGen.MyCommand</LocCanonicalName>

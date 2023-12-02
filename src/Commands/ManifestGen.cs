@@ -1,15 +1,22 @@
 ﻿using AspireManifestGen.Options;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace AspireManifestGen;
 
 [Command(PackageIds.MyCommand)]
-internal sealed class ManifestGen : BaseCommand<ManifestGen>
+internal sealed class ManifestGen : BaseDynamicCommand<ManifestGen, Project>
 {
-    protected override async Task ExecuteAsync(OleMenuCmdEventArgs e)
+    protected override void BeforeQueryStatus(OleMenuCommand menuItem, EventArgs e, Project item)
     {
-        var project = await VS.Solutions.GetActiveProjectAsync();
+        menuItem.Supported = item.IsCapabilityMatch("Aspire");
+    }
+
+    protected override async Task ExecuteAsync(OleMenuCmdEventArgs e, Project project)
+    {
+        //var project = await VS.Solutions.GetActiveProjectAsync();
         var projectPath = Path.GetDirectoryName(project.FullPath);
 
         var options = await General.GetLiveInstanceAsync();
@@ -44,13 +51,25 @@ internal sealed class ManifestGen : BaseCommand<ManifestGen>
         // TODO: Need better error handling, issue #3
         if (process.ExitCode != 0)
         {
-            Debug.WriteLine($"Error: {process.ExitCode}");
-            return;
+            var errorString = await process.StandardError.ReadToEndAsync();
+            Debug.WriteLine($"Error: {errorString}");
+            goto Cleanup;
         }
 
+        await VS.Documents.OpenAsync(manifestPath);
+
+    Cleanup:
         await VS.StatusBar.EndAnimationAsync(StatusAnimation.Build);
         await VS.StatusBar.ShowProgressAsync("Generating Aspire Manifest", 2, 2);
+        return;
+    }
 
-        await VS.Documents.OpenAsync(manifestPath);
+    protected override IReadOnlyList<Project> GetItems()
+    {
+        return ThreadHelper.JoinableTaskFactory.Run(async () =>
+        {
+            List<Project> items = [await VS.Solutions.GetActiveProjectAsync()];
+            return items;
+        });
     }
 }
