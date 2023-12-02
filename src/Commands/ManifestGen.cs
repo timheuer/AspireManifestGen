@@ -13,8 +13,6 @@ internal sealed class ManifestGen : BaseCommand<ManifestGen>
         var projectPath = Path.GetDirectoryName(project.FullPath);
 
         var options = await General.GetLiveInstanceAsync();
-        // get temp path to a file and rename the file extension to .json extension
-        //var tempPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName().Replace(".", "") + ".json");
 
         var manifestPath = string.Empty;
 
@@ -28,6 +26,8 @@ internal sealed class ManifestGen : BaseCommand<ManifestGen>
             manifestPath = Path.Combine(projectPath, options.DefaultName);
         }
 
+        await VS.StatusBar.StartAnimationAsync(StatusAnimation.Build);
+        await VS.StatusBar.ShowProgressAsync("Generating Aspire Manifest", 1, 2);
         Process process = new Process();
         process.StartInfo.WorkingDirectory = projectPath;
         process.StartInfo.FileName = "dotnet.exe";
@@ -47,6 +47,9 @@ internal sealed class ManifestGen : BaseCommand<ManifestGen>
             Debug.WriteLine($"Error: {process.ExitCode}");
             return;
         }
+
+        await VS.StatusBar.EndAnimationAsync(StatusAnimation.Build);
+        await VS.StatusBar.ShowProgressAsync("Generating Aspire Manifest", 2, 2);
 
         await VS.Documents.OpenAsync(manifestPath);
     }
