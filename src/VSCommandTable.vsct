@@ -15,14 +15,10 @@
 				<Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_WEBPROJECT"/>
 			</Group>
 		</Groups>
-
-		<!--This section defines the elements the user can interact with, like a menu command or a button
-        or combo box in a toolbar. -->
 		<Buttons>
 			<Button guid="AspireManifestGen" id="MyCommand" priority="0x0100" type="Button">
 				<Parent guid="AspireManifestGen" id="ContextMenuGroup" />
-				<Icon guid="ImageCatalogGuid" id="JSONScript" />
-				<CommandFlag>IconIsMoniker</CommandFlag>
+				<Icon guid="CommandIcon" id="CommandIcon1"/>
 				<CommandFlag>DynamicVisibility</CommandFlag>
 				<CommandFlag>DefaultInvisible</CommandFlag>
 				<Strings>
@@ -31,6 +27,9 @@
 				</Strings>
 			</Button>
 		</Buttons>
+		<Bitmaps>
+			<Bitmap guid="CommandIcon" href="Resources\commandIcon.png" usedList="CommandIcon1"/>
+		</Bitmaps>
 	</Commands>
 
 	<VisibilityConstraints>
@@ -43,5 +42,8 @@
 			<IDSymbol name="MyCommand" value="0x0100" />
 		</GuidSymbol>
 		<GuidSymbol name="UIContextGuid" value="{F686D1D0-9DDF-47DB-A0DC-59032E168F69}" />
+		<GuidSymbol name="CommandIcon" value="{e70c51b3-9a0c-495d-9638-0578a72342c2}">
+			<IDSymbol name="CommandIcon1" value="1"/>
+		</GuidSymbol>
 	</Symbols>
 </CommandTable>

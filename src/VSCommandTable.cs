@@ -17,6 +17,9 @@ namespace AspireManifestGen
 
         public const string UIContextGuidString = "f686d1d0-9ddf-47db-a0dc-59032e168f69";
         public static Guid UIContextGuid = new Guid(UIContextGuidString);
+
+        public const string CommandIconString = "e70c51b3-9a0c-495d-9638-0578a72342c2";
+        public static Guid CommandIcon = new Guid(CommandIconString);
     }
     /// <summary>
     /// Helper class that encapsulates all CommandIDs uses across VS Package.
@@ -25,5 +28,6 @@ namespace AspireManifestGen
     {
         public const int ContextMenuGroup = 0x0001;
         public const int MyCommand = 0x0100;
+        public const int CommandIcon1 = 0x0001;
     }
 }
