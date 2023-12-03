@@ -7,6 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspireManifestGen", "Aspire
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DB8CBDB0-7222-4FCF-A643-B077729AB022}"
 	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\pr.yaml = ..\.github\workflows\pr.yaml
 		..\.github\workflows\publish.yaml = ..\.github\workflows\publish.yaml
 		..\README.md = ..\README.md
 		..\version.json = ..\version.json
