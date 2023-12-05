@@ -1,8 +1,10 @@
 ﻿using AspireManifestGen.Options;
+using CliWrap;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace AspireManifestGen;
 
@@ -16,13 +18,15 @@ internal sealed class ManifestGen : BaseDynamicCommand<ManifestGen, Project>
 
     protected override async Task ExecuteAsync(OleMenuCmdEventArgs e, Project project)
     {
-        //var project = await VS.Solutions.GetActiveProjectAsync();
+        var stdOutBuffer = new StringBuilder();
+        var stdErrBuffer = new StringBuilder();
+        OutputWindowPane pane = await VS.Windows.GetOutputWindowPaneAsync(Community.VisualStudio.Toolkit.Windows.VSOutputWindowPane.General);
+
         var projectPath = Path.GetDirectoryName(project.FullPath);
 
         var options = await General.GetLiveInstanceAsync();
 
-        var manifestPath = string.Empty;
-
+        string manifestPath;
         if (options.UseTempFile)
         {
             // get temp path to a file and rename the file extension to .json extension
@@ -35,25 +39,26 @@ internal sealed class ManifestGen : BaseDynamicCommand<ManifestGen, Project>
 
         await VS.StatusBar.StartAnimationAsync(StatusAnimation.Build);
         await VS.StatusBar.ShowProgressAsync("Generating Aspire Manifest", 1, 2);
-        Process process = new Process();
-        process.StartInfo.WorkingDirectory = projectPath;
-        process.StartInfo.FileName = "dotnet.exe";
-        process.StartInfo.Arguments = $"msbuild /t:GenerateAspireManifest /p:AspireManifestPublishOutputPath={manifestPath}";
-        process.StartInfo.UseShellExecute = false;
-        process.StartInfo.RedirectStandardOutput = true;
-        process.StartInfo.RedirectStandardError = true;
-        process.StartInfo.CreateNoWindow = true;
-        process.OutputDataReceived += (sender, args) => Debug.WriteLine(args.Data);
-        process.ErrorDataReceived += (sender, args) => Debug.WriteLine(args.Data);
-        process.Start();
-        process.WaitForExit();
+
+        var result = await Cli.Wrap("dotnet")
+            .WithArguments($"msbuild /t:GenerateAspireManifest /p:AspireManifestPublishOutputPath={manifestPath}")
+            .WithWorkingDirectory(projectPath)
+            .WithStandardOutputPipe(PipeTarget.ToStringBuilder(stdOutBuffer))
+            .WithStandardErrorPipe(PipeTarget.ToStringBuilder(stdErrBuffer))
+            .WithValidation(CommandResultValidation.None)
+            .ExecuteAsync();
+
+        var stdErr = stdErrBuffer.ToString();
 
         // TODO: Need better error handling, issue #3
-        if (process.ExitCode != 0)
+        if (result.ExitCode != 0)
         {
-            var errorString = await process.StandardError.ReadToEndAsync();
-            Debug.WriteLine($"Error: {errorString}");
+            await pane.WriteLineAsync($"[.NET Aspire]: Unable to create manifest:{stdErr}:{result.ExitCode}");
             goto Cleanup;
+        }
+        else
+        {
+            await pane.WriteLineAsync($"[.NET Aspire]: Manifest created at {manifestPath}");
         }
 
         await VS.Documents.OpenAsync(manifestPath);
