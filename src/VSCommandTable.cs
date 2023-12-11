@@ -28,6 +28,7 @@ namespace AspireManifestGen
     {
         public const int ContextMenuGroup = 0x0001;
         public const int MyCommand = 0x0100;
+        public const int InfraSynth = 0x0200;
         public const int CommandIcon1 = 0x0001;
     }
 }

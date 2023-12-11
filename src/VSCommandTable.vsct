@@ -26,6 +26,17 @@
 					<LocCanonicalName>.AspireManifestGen.MyCommand</LocCanonicalName>
 				</Strings>
 			</Button>
+			<Button guid="AspireManifestGen" id="InfraSynth" priority="0x0101" type="Button">
+				<Parent guid="AspireManifestGen" id="ContextMenuGroup" />
+				<Icon guid="ImageCatalogGuid" id="Sync"/>
+				<CommandFlag>DynamicVisibility</CommandFlag>
+				<CommandFlag>DefaultInvisible</CommandFlag>
+				<CommandFlag>IconIsMoniker</CommandFlag>
+				<Strings>
+					<ButtonText>Infra Synth</ButtonText>
+					<LocCanonicalName>.AspireManifestGen.InfraSynth</LocCanonicalName>
+				</Strings>
+			</Button>
 		</Buttons>
 		<Bitmaps>
 			<Bitmap guid="CommandIcon" href="Resources\commandIcon.png" usedList="CommandIcon1"/>
@@ -34,12 +45,14 @@
 
 	<VisibilityConstraints>
 		<VisibilityItem guid="AspireManifestGen" id="MyCommand" context="UIContextGuid"></VisibilityItem>
+		<VisibilityItem guid="AspireManifestGen" id="InfraSynth" context="UIContextGuid"></VisibilityItem>
 	</VisibilityConstraints>
 
 	<Symbols>
 		<GuidSymbol name="AspireManifestGen" value="{caf1ee1b-7891-494a-8b1d-39bbff587cab}">
 			<IDSymbol name="ContextMenuGroup" value="0x0001" />
 			<IDSymbol name="MyCommand" value="0x0100" />
+			<IDSymbol name="InfraSynth" value="0x0200"/>
 		</GuidSymbol>
 		<GuidSymbol name="UIContextGuid" value="{F686D1D0-9DDF-47DB-A0DC-59032E168F69}" />
 		<GuidSymbol name="CommandIcon" value="{e70c51b3-9a0c-495d-9638-0578a72342c2}">
