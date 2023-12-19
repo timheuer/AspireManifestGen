@@ -22,4 +22,10 @@ public class General : BaseOptionModel<General>
     [Description("Use a temporary file on disk instead of project location")]
     [DefaultValue(true)]
     public bool UseTempFile { get; set; } = true;
+
+    [Category("Manifest file")]
+    [DisplayName("Enable azd debug output")]
+    [Description("Enables azd debug output (--debug) to the infra synth")]
+    [DefaultValue(false)]
+    public bool AzdDebug { get; set; } = false;
 }

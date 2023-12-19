@@ -23,14 +23,17 @@ internal sealed class InfraSynth : BaseDynamicCommand<InfraSynth, Project>
         var stdOutBuffer = new StringBuilder();
         var stdErrBuffer = new StringBuilder();
         OutputWindowPane pane = await VS.Windows.GetOutputWindowPaneAsync(Community.VisualStudio.Toolkit.Windows.VSOutputWindowPane.General);
+        var options = await General.GetLiveInstanceAsync();
 
         var projectPath = FindAzureYaml(project.FullPath);
 
         await VS.StatusBar.StartAnimationAsync(StatusAnimation.Sync);
         await VS.StatusBar.ShowProgressAsync(STATUS_MESSAGE, 1, 2);
 
+        var command = $"infra synth --force --no-prompt" + (options.AzdDebug ? " --debug" : "");
+
         var result = await Cli.Wrap("azd")
-            .WithArguments($"infra synth --force --no-prompt")
+            .WithArguments(command)
             .WithWorkingDirectory(projectPath)
             .WithStandardOutputPipe(PipeTarget.ToStringBuilder(stdOutBuffer))
             .WithStandardErrorPipe(PipeTarget.ToStringBuilder(stdErrBuffer))
@@ -47,6 +50,7 @@ internal sealed class InfraSynth : BaseDynamicCommand<InfraSynth, Project>
         else
         {
             await pane.WriteLineAsync($"[AZD]: infra synth completed");
+            await pane.WriteLineAsync($"[AZD]: {stdOutBuffer}");
         }
 
         await VS.Documents.OpenAsync(Path.Combine(projectPath, "infra", "resources.bicep"));
