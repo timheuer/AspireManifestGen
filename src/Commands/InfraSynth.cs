@@ -56,7 +56,7 @@ internal sealed class InfraSynth : BaseDynamicCommand<InfraSynth, Project>
         await VS.Documents.OpenAsync(Path.Combine(projectPath, "infra", "resources.bicep"));
 
     Cleanup:
-        await VS.StatusBar.EndAnimationAsync(StatusAnimation.Build);
+        await VS.StatusBar.EndAnimationAsync(StatusAnimation.Sync);
         await VS.StatusBar.ShowProgressAsync(STATUS_MESSAGE, 2, 2);
         return;
     }
