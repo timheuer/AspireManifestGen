@@ -33,7 +33,7 @@
 				<CommandFlag>DefaultInvisible</CommandFlag>
 				<CommandFlag>IconIsMoniker</CommandFlag>
 				<Strings>
-					<ButtonText>Infra Synth</ButtonText>
+					<ButtonText>Infra Synth (requires AZD)</ButtonText>
 					<LocCanonicalName>.AspireManifestGen.InfraSynth</LocCanonicalName>
 				</Strings>
 			</Button>
