@@ -1,5 +1,6 @@
 ﻿using AspireManifestGen.Options;
 using CliWrap;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -22,7 +23,7 @@ internal sealed class ManifestGen : BaseDynamicCommand<ManifestGen, Project>
     {
         var stdOutBuffer = new StringBuilder();
         var stdErrBuffer = new StringBuilder();
-        OutputWindowPane pane = await VS.Windows.GetOutputWindowPaneAsync(Community.VisualStudio.Toolkit.Windows.VSOutputWindowPane.General);
+        OutputWindowPane pane = OutputWindowManager.AspireOutputPane;
 
         var projectPath = Path.GetDirectoryName(project.FullPath);
 
@@ -41,6 +42,7 @@ internal sealed class ManifestGen : BaseDynamicCommand<ManifestGen, Project>
 
         await VS.StatusBar.StartAnimationAsync(StatusAnimation.Build);
         await VS.StatusBar.ShowProgressAsync(STATUS_MESSAGE, 1, 2);
+        await pane.WriteLineAsync(OutputWindowManager.GenerateOutputMessage(STATUS_MESSAGE, "ManifestGen", LogLevel.Information));
 
         var result = await Cli.Wrap("dotnet")
             .WithArguments($"msbuild /t:GenerateAspireManifest /p:AspireManifestPublishOutputPath={manifestPath}")
@@ -55,12 +57,12 @@ internal sealed class ManifestGen : BaseDynamicCommand<ManifestGen, Project>
         // TODO: Need better error handling, issue #3
         if (result.ExitCode != 0)
         {
-            await pane.WriteLineAsync($"[.NET Aspire]: Unable to create manifest:{stdErr}:{result.ExitCode}");
+            await pane.WriteLineAsync(OutputWindowManager.GenerateOutputMessage($"Unable to create manifest:{stdErr}:{result.ExitCode}", "ManifestGen", LogLevel.Error));
             goto Cleanup;
         }
         else
         {
-            await pane.WriteLineAsync($"[.NET Aspire]: Manifest created at {manifestPath}");
+            await pane.WriteLineAsync(OutputWindowManager.GenerateOutputMessage($"Manifest created at {manifestPath}", "ManifestGen", LogLevel.Information)); 
         }
 
         await VS.Documents.OpenAsync(manifestPath);

@@ -1,5 +1,6 @@
 ﻿using AspireManifestGen.Options;
 using CliWrap;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -22,13 +23,14 @@ internal sealed class InfraSynth : BaseDynamicCommand<InfraSynth, Project>
     {
         var stdOutBuffer = new StringBuilder();
         var stdErrBuffer = new StringBuilder();
-        OutputWindowPane pane = await VS.Windows.GetOutputWindowPaneAsync(Community.VisualStudio.Toolkit.Windows.VSOutputWindowPane.General);
+        OutputWindowPane pane = OutputWindowManager.AspireOutputPane;
         var options = await General.GetLiveInstanceAsync();
 
         var projectPath = FindAzureYaml(project.FullPath);
 
         await VS.StatusBar.StartAnimationAsync(StatusAnimation.Sync);
         await VS.StatusBar.ShowProgressAsync(STATUS_MESSAGE, 1, 2);
+        await pane.WriteLineAsync(OutputWindowManager.GenerateOutputMessage(STATUS_MESSAGE, "InfraSynth", LogLevel.Information));
 
         var command = $"infra synth --force --no-prompt" + (options.AzdDebug ? " --debug" : "");
 
@@ -44,13 +46,13 @@ internal sealed class InfraSynth : BaseDynamicCommand<InfraSynth, Project>
 
         if (result.ExitCode != 0)
         {
-            await pane.WriteLineAsync($"[AZD]: Unable to synthesize infrastructure:{stdErr}:{result.ExitCode}");
+            await pane.WriteLineAsync(OutputWindowManager.GenerateOutputMessage($"Unable to synthesize infrastructure:{stdErr}:{result.ExitCode}", "InfraSynth", LogLevel.Error));
             goto Cleanup;
         }
         else
         {
-            await pane.WriteLineAsync($"[AZD]: infra synth completed");
-            await pane.WriteLineAsync($"[AZD]: {stdOutBuffer}");
+            await pane.WriteLineAsync(OutputWindowManager.GenerateOutputMessage($"Infra synth completed", "InfraSynth", LogLevel.Information));
+            await pane.WriteLineAsync(OutputWindowManager.GenerateOutputMessage($"{stdOutBuffer}", "InfraSynth", LogLevel.Information));
         }
 
         await VS.Documents.OpenAsync(Path.Combine(projectPath, "infra", "resources.bicep"));

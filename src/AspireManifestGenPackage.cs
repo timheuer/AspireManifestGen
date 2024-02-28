@@ -24,6 +24,7 @@ public sealed class AspireManifestGenPackage : ToolkitPackage
 
     protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
     {
+        OutputWindowManager.AspireOutputPane = await VS.Windows.CreateOutputWindowPaneAsync(".NET Aspire", true);
         await this.RegisterCommandsAsync();
     }
 }
