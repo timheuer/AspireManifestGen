@@ -27,6 +27,9 @@ internal sealed class ManifestGen : BaseDynamicCommand<ManifestGen, Project>
 
         var projectPath = Path.GetDirectoryName(project.FullPath);
 
+        var solution = await VS.Solutions.GetCurrentSolutionAsync();
+        var solutionPath = Path.GetDirectoryName(solution.FullPath);
+
         var options = await General.GetLiveInstanceAsync();
 
         string manifestPath;
@@ -38,7 +41,7 @@ internal sealed class ManifestGen : BaseDynamicCommand<ManifestGen, Project>
         }
         else
         {
-            manifestPath = Path.Combine(projectPath, options.DefaultPath);
+            manifestPath = Path.Combine(solutionPath, options.DefaultPath);
         }
 
         await VS.StatusBar.StartAnimationAsync(StatusAnimation.Build);

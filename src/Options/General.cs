@@ -13,7 +13,7 @@ public class General : BaseOptionModel<General>
 {
     [Category("Manifest file")]
     [DisplayName("Default path name")]
-    [Description("The default path of the folder where the manifest file will be generated")]
+    [Description("The default path of the folder where the manifest file will be generated. This will be at the solution root.")]
     [DefaultValue(".aspire")]
     public string DefaultPath { get; set; } = ".aspire";
 
