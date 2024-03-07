@@ -30,14 +30,15 @@ internal sealed class ManifestGen : BaseDynamicCommand<ManifestGen, Project>
         var options = await General.GetLiveInstanceAsync();
 
         string manifestPath;
+        string manifestFileName = "manifest.json";
+
         if (options.UseTempFile)
         {
-            // get temp path to a file and rename the file extension to .json extension
-            manifestPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName().Replace(".", "") + ".json");
+            manifestPath = Path.Combine(Path.GetTempPath(), Path.GetFileNameWithoutExtension(Path.GetTempFileName()));
         }
         else
         {
-            manifestPath = Path.Combine(projectPath, options.DefaultName);
+            manifestPath = Path.Combine(projectPath, options.DefaultPath);
         }
 
         await VS.StatusBar.StartAnimationAsync(StatusAnimation.Build);
@@ -62,10 +63,17 @@ internal sealed class ManifestGen : BaseDynamicCommand<ManifestGen, Project>
         }
         else
         {
-            await pane.WriteLineAsync(OutputWindowManager.GenerateOutputMessage($"Manifest created at {manifestPath}", "ManifestGen", LogLevel.Information)); 
+            await pane.WriteLineAsync(OutputWindowManager.GenerateOutputMessage($"Manifest created at {manifestPath}\\{manifestFileName}", "ManifestGen", LogLevel.Information)); 
         }
 
-        await VS.Documents.OpenAsync(manifestPath);
+        try
+        {
+            await VS.Documents.OpenAsync(Path.Combine(manifestPath,manifestFileName));
+        }
+        catch (Exception ex)
+        {
+            await pane.WriteLineAsync(OutputWindowManager.GenerateOutputMessage($"Unable to open manifest:{ex.Message}", "ManifestGen", LogLevel.Error));
+        }
 
     Cleanup:
         await VS.StatusBar.EndAnimationAsync(StatusAnimation.Build);

@@ -12,10 +12,10 @@ internal partial class OptionsProvider
 public class General : BaseOptionModel<General>
 {
     [Category("Manifest file")]
-    [DisplayName("Default file name")]
-    [Description("The default name of the manifest file to be generated")]
-    [DefaultValue("aspire-manifest.json")]
-    public string DefaultName { get; set; } = "aspire-manifest.json";
+    [DisplayName("Default path name")]
+    [Description("The default path of the folder where the manifest file will be generated")]
+    [DefaultValue(".aspire")]
+    public string DefaultPath { get; set; } = ".aspire";
 
     [Category("Manifest file")]
     [DisplayName("Use temporary file")]
