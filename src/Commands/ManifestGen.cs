@@ -39,15 +39,23 @@ internal sealed class ManifestGen : BaseDynamicCommand<ManifestGen, Project>
         }
         else
         {
-            manifestPath = Path.Combine(solutionPath, options.DefaultPath);
+            manifestPath = options.RelativeTo == RelativeTo.Solution
+                ? Path.Combine(solutionPath, options.DefaultPath)
+                : Path.Combine(projectPath, options.DefaultPath);
         }
+
+        // ensure that the manifestPath directory exists
+        Directory.CreateDirectory(manifestPath);
+
+        // reset the path to include the manifest file name now that the directory exists
+        manifestPath = Path.Combine(manifestPath, manifestFileName);
 
         await VS.StatusBar.StartAnimationAsync(StatusAnimation.Build);
         await VS.StatusBar.ShowProgressAsync(STATUS_MESSAGE, 1, 2);
         await pane.WriteLineAsync(OutputWindowManager.GenerateOutputMessage(STATUS_MESSAGE, "ManifestGen", LogLevel.Information));
-        await pane.WriteLineAsync(OutputWindowManager.GenerateOutputMessage($"Generating using: msbuild /t:GenerateAspireManifest /p:AspireManifestPublishOutputPath={manifestPath}", "ManifestGen", LogLevel.Information));
+        await pane.WriteLineAsync(OutputWindowManager.GenerateOutputMessage($"Generating using: dotnet run --publisher manifest --output-path {manifestPath}", "ManifestGen", LogLevel.Information));
         var result = await Cli.Wrap("dotnet")
-            .WithArguments($"msbuild /t:GenerateAspireManifest /p:AspireManifestPublishOutputPath={manifestPath}")
+            .WithArguments($"dotnet run --publisher manifest --output-path {manifestPath}")
             .WithWorkingDirectory(projectPath)
             .WithStandardOutputPipe(PipeTarget.ToStringBuilder(stdOutBuffer))
             .WithStandardErrorPipe(PipeTarget.ToStringBuilder(stdErrBuffer))
@@ -64,12 +72,12 @@ internal sealed class ManifestGen : BaseDynamicCommand<ManifestGen, Project>
         }
         else
         {
-            await pane.WriteLineAsync(OutputWindowManager.GenerateOutputMessage($"Manifest created at {manifestPath}\\{manifestFileName}", "ManifestGen", LogLevel.Information)); 
+            await pane.WriteLineAsync(OutputWindowManager.GenerateOutputMessage($"Manifest created at {manifestPath}", "ManifestGen", LogLevel.Information)); 
         }
 
         try
         {
-            await VS.Documents.OpenAsync(Path.Combine(manifestPath,manifestFileName));
+            await VS.Documents.OpenAsync(Path.Combine(manifestPath));
         }
         catch (Exception ex)
         {
