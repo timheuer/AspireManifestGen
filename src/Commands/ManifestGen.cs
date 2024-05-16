@@ -2,9 +2,7 @@
 using CliWrap;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace AspireManifestGen;
@@ -33,7 +31,7 @@ internal sealed class ManifestGen : BaseDynamicCommand<ManifestGen, Project>
         var options = await General.GetLiveInstanceAsync();
 
         string manifestPath;
-        string manifestFileName = "manifest.json";
+        string manifestFileName = "aspire-manifest.json";
 
         if (options.UseTempFile)
         {
@@ -47,7 +45,7 @@ internal sealed class ManifestGen : BaseDynamicCommand<ManifestGen, Project>
         await VS.StatusBar.StartAnimationAsync(StatusAnimation.Build);
         await VS.StatusBar.ShowProgressAsync(STATUS_MESSAGE, 1, 2);
         await pane.WriteLineAsync(OutputWindowManager.GenerateOutputMessage(STATUS_MESSAGE, "ManifestGen", LogLevel.Information));
-
+        await pane.WriteLineAsync(OutputWindowManager.GenerateOutputMessage($"Generating using: msbuild /t:GenerateAspireManifest /p:AspireManifestPublishOutputPath={manifestPath}", "ManifestGen", LogLevel.Information));
         var result = await Cli.Wrap("dotnet")
             .WithArguments($"msbuild /t:GenerateAspireManifest /p:AspireManifestPublishOutputPath={manifestPath}")
             .WithWorkingDirectory(projectPath)
