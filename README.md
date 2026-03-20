@@ -2,7 +2,7 @@
 [![Visual Studio Marketplace Version (including pre-releases)](https://img.shields.io/visual-studio-marketplace/v/TimHeuer.AspireManifestGen?include_prereleases&logo=visualstudio&logoColor=purple&label=VS%20Marketplace&labelColor=white&color=purple)](https://marketplace.visualstudio.com/items?itemName=TimHeuer.AspireManifestGen)
 
 # Aspire Manifest generator
-A dumb little utility to quickly generate an [Aspire deployment manifest](https://learn.microsoft.com/dotnet/aspire/deployment/manifest-format) from VS solution explorer.
+A dumb little utility to quickly generate an [Aspire deployment manifest](https://aspire.dev/deployment/manifest-format/) from VS solution explorer.
 
 I honestly don't expect anyone to use this beyond myself and a few other team members for quick validation purposes in Visual Studio, demo purposes, etc. so with that it comes with the "works on my machine" level of quality guarantee.
 
