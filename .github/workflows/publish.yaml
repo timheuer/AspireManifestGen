@@ -2,12 +2,6 @@ name: "Publish"
 
 on: 
   workflow_dispatch:
-    branches:
-      - main
-    paths-ignore:
-      - '**/*.md'
-      - '**/*.gitignore'
-      - '**/*.gitattributes'
   push:
     branches:
       - main
@@ -35,7 +29,7 @@ jobs:
         VERSION: ${{ needs.build.outputs.version }}
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
       with:
         fetch-depth: 0
 
@@ -44,13 +38,13 @@ jobs:
         reg add HKEY_CURRENT_USER\Software\Microsoft\VisualStudio\Telemetry /v TurnOffSwitch /t REG_DWORD /d 1 /f
 
     - name: Download Package artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v8
       with:
         name: ${{ github.event.repository.name }}.vsix
 
     - name: Tag and Release
       id: tag_release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2.6.1
       with:
         body: Release ${{ env.VERSION }}
         tag_name: ${{ env.VERSION }}
@@ -59,14 +53,14 @@ jobs:
           **/*.vsix
     
     - name: Upload to VsixGallery
-      uses: timheuer/openvsixpublish@v1
+      uses: timheuer/openvsixpublish@v1.0.0
       with:
         vsix-file: ${{ github.event.repository.name }}.vsix
 
     - name: Publish extension to Marketplace
       #if: ${{ contains(github.event.head_commit.message, '[release]') }}
       continue-on-error: true # remove this after VS bug fixed
-      uses: cezarypiatek/VsixPublisherAction@1.0
+      uses: cezarypiatek/VsixPublisherAction@1.1
       with:
         extension-file: '${{ github.event.repository.name }}.vsix'
         publish-manifest-file: 'vs-publish.json'
