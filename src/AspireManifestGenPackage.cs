@@ -10,8 +10,8 @@ namespace AspireManifestGen;
 [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
 [ProvideMenuResource("Menus.ctmenu", 1)]
 [Guid(PackageGuids.AspireManifestGenString)]
-[ProvideOptionPage(typeof(OptionsProvider.GeneralOptions), ".NET Aspire", "Manifest", 0, 0, true)]
-[ProvideProfile(typeof(OptionsProvider.GeneralOptions), ".NET Aspire", "Manifest", 0, 0, true)]
+[ProvideOptionPage(typeof(OptionsProvider.GeneralOptions), "Aspire", "Manifest", 0, 0, true)]
+[ProvideProfile(typeof(OptionsProvider.GeneralOptions), "Aspire", "Manifest", 0, 0, true)]
 [ProvideAutoLoad(UIContextGuid, PackageAutoLoadFlags.BackgroundLoad)]
 [ProvideUIContextRule(UIContextGuid,
     name: "Show on Aspire Project",
@@ -24,7 +24,7 @@ public sealed class AspireManifestGenPackage : ToolkitPackage
 
     protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
     {
-        OutputWindowManager.AspireOutputPane = await VS.Windows.CreateOutputWindowPaneAsync(".NET Aspire", true);
+        OutputWindowManager.AspireOutputPane = await VS.Windows.CreateOutputWindowPaneAsync("Aspire", true);
         await this.RegisterCommandsAsync();
     }
 }
